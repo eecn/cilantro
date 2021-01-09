@@ -2,14 +2,14 @@
 
 #include <fstream>
 #include <cilantro/core/data_containers.hpp>
-
+// 从文件读取矩阵 二进制和文本文件读取 读写数据
 namespace cilantro {
     template<class Matrix>
     bool readEigenMatrixFromFile(const std::string &file_path, Matrix &matrix, bool binary = true) {
         if (binary) {
             std::ifstream in(file_path, std::ifstream::binary);
             if (!in) return false;
-            typename Matrix::Index rows = 0, cols = 0;
+            typename Matrix::Index rows = 0, cols = 0;  //泛型编程中 显式地告诉编译器，Matrix::Index是一个类型名  否则会被默认视为变量
             if (!in.read((char*)(&rows), sizeof(typename Matrix::Index))) return false;
             if (!in.read((char*)(&cols), sizeof(typename Matrix::Index))) return false;
             matrix.resize(rows, cols);
