@@ -1,11 +1,12 @@
 #pragma once
 
 #include <chrono>
+// 基于chrono重新封装的时间接口  开始 停止 所需时间 etc.
 
 namespace cilantro {
     class Timer {
     public:
-        inline Timer(bool start = false) { if (start) start_time_ = std::chrono::high_resolution_clock::now(); }
+        inline Timer(bool start = false) { if (start) start_time_ = std::chrono::high_resolution_clock::now(); } // 高精度时钟 构造函数
 
         inline Timer& start() { start_time_ = std::chrono::high_resolution_clock::now(); return *this; }
 
