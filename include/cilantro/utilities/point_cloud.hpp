@@ -6,7 +6,7 @@
 #include <cilantro/core/grid_downsampler.hpp>
 #include <cilantro/core/normal_estimation.hpp>
 #include <cilantro/utilities/ply_io.hpp>
-
+// 点云类 构造函数  增加 移除 下采样 法向估计 transform  PLY读写  类型转换
 namespace cilantro {
     template <typename ScalarT, ptrdiff_t EigenDim>
     class PointCloud {
@@ -34,7 +34,7 @@ namespace cilantro {
         template <typename IndexT>
         PointCloud(const PointCloud<ScalarT,EigenDim> &cloud,
                    const std::vector<IndexT> &indices,
-                   bool negate = false)
+                   bool negate = false) 
         {
             std::set<IndexT> indices_set;
             if (negate) {
@@ -158,8 +158,8 @@ namespace cilantro {
                 return *this;
             }
 
-            size_t valid_ind = size() - 1;
-            while (indices_set.find(valid_ind) != indices_set.end()) {
+            size_t valid_ind = size() - 1;//点云中最后一个不是需要删除的点云的index
+            while (indices_set.find(valid_ind) != indices_set.end()) {  // 这个步骤最多需要进行size()-1次 即如果删除的是第一个点云的情况下 但是删除操作只需要一次 最少需要执行一次  所以每一个点云只需要遍历一次
                 valid_ind--;
             }
 
@@ -199,7 +199,7 @@ namespace cilantro {
             std::vector<size_t> ind_to_remove;
             ind_to_remove.reserve(points.cols());
             for (size_t i = 0; i < points.cols(); i++) {
-                if (!points.col(i).allFinite()) ind_to_remove.emplace_back(i);
+                if (!points.col(i).allFinite()) ind_to_remove.emplace_back(i);// -Infinity和Infinity之间返回true，否则返回false
             }
             return remove(ind_to_remove);
         }
