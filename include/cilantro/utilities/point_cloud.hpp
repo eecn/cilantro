@@ -152,7 +152,7 @@ namespace cilantro {
         PointCloud& remove(const std::vector<IndexT> &indices) {
             if (indices.empty()) return *this;
 
-            std::set<IndexT> indices_set(indices.begin(), indices.end());
+            std::set<IndexT> indices_set(indices.begin(), indices.end()); // st容器 会对元素做升序排列 键值相等
             if (indices_set.size() >= size()) {
                 clear();
                 return *this;
